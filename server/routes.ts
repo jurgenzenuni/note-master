@@ -37,6 +37,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json(notes);
   });
 
+  app.get("/api/notes/:id", async (req, res) => {
+    const id = z.number().parse(parseInt(req.params.id));
+    const note = await storage.getNote(id);
+    if (!note) {
+      res.status(404).json({ message: "Note not found" });
+      return;
+    }
+    res.json(note);
+  });
+
   app.post("/api/notes", async (req, res) => {
     const note = insertNoteSchema.parse(req.body);
     const created = await storage.createNote(note);
