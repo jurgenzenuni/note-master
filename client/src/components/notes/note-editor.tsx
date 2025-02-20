@@ -33,7 +33,7 @@ export default function NoteEditor({ noteId }: NoteEditorProps) {
 
   const debouncedUpdate = debounce((data: Partial<Note>) => {
     updateMutation.mutate(data);
-  }, 500);
+  }, 200); // Reduced from 500ms to 200ms
 
   if (!note) return null;
 
@@ -44,7 +44,7 @@ export default function NoteEditor({ noteId }: NoteEditorProps) {
         onChange={(e) => debouncedUpdate({ title: e.target.value })}
         className="text-xl font-semibold"
       />
-      
+
       <Textarea
         value={note.content}
         onChange={(e) => debouncedUpdate({ content: e.target.value })}
