@@ -1,0 +1,4 @@
+Enter this info into the .env file:
+
+DATABASE_URL=
+SESSION_SECRET= RANDOMString

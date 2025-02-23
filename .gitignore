@@ -1,6 +1,58 @@
-node_modules
-dist
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+
+# Build output
+dist/
+build/
+
+# Vite cache
+.vite/
+
+# TypeScript
+*.tsbuildinfo
+
+# IDE specific files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# MacOS
 .DS_Store
+
+# Breakpoints
+.breakpoints
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Optional npm cache directory
+.npm/
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Optional REPLIT cache
+.replit/
+
+# Optional lock files
+package-lock.json
+yarn.lock
+
+dist
 server/public
 vite.config.ts.*
 *.tar.gz

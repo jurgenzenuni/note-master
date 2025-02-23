@@ -12,7 +12,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface NoteListProps {
   folderId: number;
@@ -30,8 +35,9 @@ export default function NoteList({
   const [newNoteTitle, setNewNoteTitle] = useState("");
 
   const { data: notes = [] } = useQuery<Note[]>({
-    queryKey: ["/api/folders", folderId, "notes"],
-    queryFn: () => fetch(`/api/folders/${folderId}/notes`).then((r) => r.json()),
+    queryKey: ["/api/notes/folder", folderId],
+    queryFn: () => apiRequest("GET", `/api/notes/folder/${folderId}`),
+    enabled: !!folderId,
   });
 
   const createMutation = useMutation({
@@ -39,12 +45,12 @@ export default function NoteList({
       await apiRequest("POST", "/api/notes", {
         title,
         content: "",
-        folderId,
+        folderId: folderId,
       });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["/api/folders", folderId, "notes"],
+        queryKey: ["/api/notes/folder", folderId],
       });
       setShowCreateDialog(false);
       setNewNoteTitle("");
@@ -58,7 +64,7 @@ export default function NoteList({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["/api/folders", folderId, "notes"],
+        queryKey: ["/api/notes/folder", folderId],
       });
       toast({ description: "Note deleted" });
     },
@@ -91,7 +97,7 @@ export default function NoteList({
             >
               {note.title}
             </button>
-            
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon">
@@ -116,7 +122,7 @@ export default function NoteList({
           <DialogHeader>
             <DialogTitle>Create Note</DialogTitle>
           </DialogHeader>
-          
+
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -129,7 +135,7 @@ export default function NoteList({
               onChange={(e) => setNewNoteTitle(e.target.value)}
               placeholder="Enter note title"
             />
-            
+
             <div className="flex justify-end gap-3">
               <Button
                 type="button"
